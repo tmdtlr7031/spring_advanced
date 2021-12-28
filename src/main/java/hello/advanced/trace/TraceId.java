@@ -1,10 +1,12 @@
 package hello.advanced.trace;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.UUID;
 
 @Getter
+@AllArgsConstructor
 public class TraceId {
     private String id;
     private int level;
@@ -12,11 +14,6 @@ public class TraceId {
     public TraceId() {
         this.id = createId();
         this.level = 0;
-    }
-
-    private TraceId(String id, int level) {
-        this.id = id;
-        this.level = level;
     }
 
     private String createId() {
