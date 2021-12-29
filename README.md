@@ -30,6 +30,16 @@
     - ConcurrentHashMap 등 동기화된 컬랙션을 쓰면 해결 가능? 
       - 동기화 된 컬렉션은 데이터를 입력할 때와 조회할 때만 동시성이 보장되므로 해당 예제에서는 더 넓은 범위의 동시성 문제이므로 불가능.
         - 아마 단순히 값을 변경하는 케이스(운영자A가 제품A의 수량=0, 운영자B가 제품A의 수량-3 후 수량을 리턴)가 아니라 사용자 별로 어플리케이션에 접근한 로그를 추적해야하는 예제라 각 쓰레드 별로 구분이 되야하기 때문에 `더 넓은 범위의 동시성문제`라고 한듯
+        - 아래 코드에서 보면, name ="userA"를 저장하는데 1초가 걸리는 데 그 사이에 다르 쓰레드가 name = "userB"를 실행해버리는 상황이므로 동기화 된 컬렉션으로도 해결이 안 된다고 한 듯
+        ```java
+            public String logic(String name) {
+                log.info("저장 name={} -> nameStore={}", name, nameStore);
+                nameStore = name;
+                sleep(1000); // 저장하는ㄷ 걸리는 시간
+                log.info("조회 nameStore={}", nameStore);
+                return nameStore;
+            }
+        ```
  
  - 참고
     - http://dveamer.github.io/backend/JavaConcurrentCollections.html (쓰레드세이프 컬렉션)
